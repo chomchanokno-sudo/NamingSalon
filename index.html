@@ -1202,6 +1202,26 @@ function submitBooking() {
         note: note
       })
     });
+    console.log("SENDING:", data); // 🔥 debug
+
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbyKBNV_cg4giBt3S5YZHw6QYL7N0neYo12O-g9Dunp/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const text = await res.text();
+    console.log("SUCCESS:", text);
+
+    alert("ส่งสำเร็จ!");
+
+  } catch (err) {
+    console.error("ERROR:", err);
+    alert("ส่งไม่สำเร็จ!");
+  }
   }
 
   const btn = document.getElementById('submitBtn');
