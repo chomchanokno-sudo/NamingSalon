@@ -1187,6 +1187,21 @@ function submitBooking() {
   if(!name || !phone || !date || !time || svcs.length === 0) {
     alert('กรุณากรอกข้อมูลให้ครบถ้วนและเลือกบริการอย่างน้อย 1 รายการค่ะ');
     return;
+
+    fetch("https://script.google.com/macros/s/AKfycbyKBNV_cg4giBt3S5YZHw6QYL7N0neYol2O-g9DunpjkTxEUrOkdc212haZ_E-q79xl/exec", {
+      method: "POST",
+      headers: {
+    "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        date: date,
+        time: time,
+        service: svcs.join(", "),
+        note: note
+      })
+    });
   }
 
   const btn = document.getElementById('submitBtn');
