@@ -1236,18 +1236,25 @@ function submitBooking() {
 //  LINE NOTIFY
 // ────────────────────────
 async function sendLineNotify(booking) {
-  const msg = `\n✂️ จองคิวใหม่ — Nam-ing Salon\n\n👤 ชื่อ: ${booking.name}\n📞 โทร: ${booking.phone}\n📅 วันที่: ${formatDate(booking.date)}\n🕐 เวลา: ${booking.time}\n💇 บริการ: ${booking.services.join(', ')}${booking.note ? '\n📝 หมายเหตุ: '+booking.note : ''}\n\nกรุณายืนยันการนัดด้วยนะคะ 🙏`;
+  const WEBHOOK_URL = "PUT_YOUR_WEBHOOK_URL_HERE"; // 🔥 ใส่ Google Script
+
   try {
-    await fetch('https://notify-api.line.me/api/notify', {
-      method: 'POST',
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
       headers: {
-        'Authorization': 'Bearer ' + lineToken,
-        'Content-Type': 'application/x-www-form-urlencoded'
+        "Content-Type": "application/json"
       },
-      body: 'message=' + encodeURIComponent(msg)
+      body: JSON.stringify({
+        name: booking.name,
+        phone: booking.phone,
+        date: booking.date,
+        time: booking.time,
+        service: booking.services.join(', '),
+        note: booking.note
+      })
     });
-  } catch(e) {
-    console.log('Line Notify error:', e);
+  } catch (e) {
+    console.log("LINE ERROR:", e);
   }
 }
 
